@@ -1,43 +1,67 @@
-myFirst
+Babies
 ========================================================
 transition: rotate
 author: Gianluigi Bardelloni
-date: 12 May 2015
+date: 24 May 2015
 
-First Slide
+Background
 ========================================================
+This Reproducible Pitch Presentation is part of the project for the MOOC course **Developing Data Products** organized by the Johns Hopkins Bloomberg School of Public Health.
 
-For more details on authoring R presentations click the
-**Help** button on the toolbar.
+It describes the shiny application I developed in order to do the peer assessed assignment requested to pass the course.
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
 
-Slide With Code
+Application Description
 ========================================================
+The application **Babies** enables you to perform some exploratory analysis on the babies dataset contained in the **UsingR** package. Such dataset is a collection of variables taken for each new mother in a Child and Health Development Study held between 1961 and 1962 for 52 weeks.
+
+**Babies** is a three-page web application which contains two Bubble Charts displaying baby weights (as bubble size) versus:
+- mother physical variable on the x-axis
+- same father physical variable on the y-axis 
+- mother smoking habits as color of the bubble
+
+Application How-to
+========================================================
+In the first page of the application you learn how to use it and to select one of the following parents physical variables:
+- age
+- weight
+- heigth
+
+In the **Weekly Chart** page you see how the baby weights vs the selected parents variable change across each week of the study.
+
+In the **Quantile Chart** page you see how the 95% or 5% baby weight quantiles relates to the selected parent variable. 
+
+Data Cleaning
+========================================================
+The dataset contains numerical variables where 9 or 99 or 999 values are used to express unknown values.
+Before loading data into the bubble charts I've removed such datapoints for each of the selectable parent variables.
+In this example, I clean the mother age:
 
 
 ```r
-summary(cars)
+require(UsingR)
+data <- babies
+max(data$age)
 ```
 
 ```
-     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  
+[1] 99
 ```
 
-Slide With Plot
+```r
+data_a <- data[data$age != 99,]
+max(data_a$age)
+```
+
+```
+[1] 45
+```
+
+Remarkable features of Babies
 ========================================================
+The features I'm proud of are:
+- scale and range of both x and y axis are always aligned, so that points above or beneath the diagonal are influenced respectively by the father and the mother
+- user can interact with the application by selecting 3 variables, 2 quantiles, 52 weeks and even have a chart animation in the **Weekly Chart**
+- zoom-in and zoom reset are supported through the GoogleBubbleChart with mouse dragging and right-clicking, respectively.
 
-![plot of chunk unnamed-chunk-2](myFirst-figure/unnamed-chunk-2-1.png) 
-
-Slide With TeX
-========================================================
-
-$x^n$
+Babies is available at: http://gianluigib.shinyapps.io/shinyJHcourse/
